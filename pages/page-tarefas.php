@@ -27,36 +27,53 @@ include '../modais/view-editar-tarefa.php';
 
     <script src="../scripts-js/atualiza-tabela-tarefas.js"></script>
 
+    <style>
+      html { visibility:hidden; }
+    </style>
+
   <title>TESTE EASYJUR</title>
 </head>
 
 <body>
-  <nav class="navbar navbar-light justify-content-center fs-3 mb-5" style="background-color: #00ff5573;">
+  <nav class="navbar navbar-light justify-content-center fs-3" style="background-color: #1e1f21; color: white; margin: 0; height: 80px; border-radius:0">
     TESTE EASYJUR
   </nav>
+  <div style="background-color: black; width: 100%; height: 100vh; display: flex; padding-top:100px">  
+    <div class="container">
+      <a class="btn btn-dark mb-3" style="margin-top: 15px" data-toggle="modal" data-target="#modalAdicionarTarefa">Adicionar tarefa</a>
 
-  <div class="container">
-    <a class="btn btn-dark mb-3" data-toggle="modal" data-target="#modalAdicionarTarefa">Adicionar tarefa</a>
+      <table id="table" class="table table-hover text-center">
+        <thead class="table-dark">
+          <tr>
+            <th class="text-center" scope="col">Nome</th>
+            <th class="text-center" scope="col">Descrição</th>
+            <th class="text-center" scope="col">Data de Criação</th>
+            <th class="text-center" scope="col">Data de Modificação</th>
+            <th class="text-center" scope="col">Status</th>
+            <th class="text-center" scope="col"></th>
+            <th class="text-center" scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
 
-    <table id="table" class="table table-hover text-center">
-      <thead class="table-dark">
-        <tr>
-          <th class="text-center" scope="col">Nome</th>
-          <th class="text-center" scope="col">Descrição</th>
-          <th class="text-center" scope="col">Data de Criação</th>
-          <th class="text-center" scope="col">Data de Modificação</th>
-          <th class="text-center" scope="col">Status</th>
-          <th class="text-center" scope="col"></th>
-          <th class="text-center" scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
+      <script type="text/javascript">
+        var value = localStorage.getItem("auth-expiration");
+        var currentDate = new Date();
+        var authDate = new Date(value);
+        if (value === null || currentDate > authDate){
+          $url = "../index.php"
+          window.location = $url;
+          alert("Você não está autorizado a acessar esse domínio")
+        }
 
-    <script type="text/javascript">
-        $(document).ready(atualizaTabelaTarefas());
-    </script>
+          $(document).ready(function(){
+            document.getElementsByTagName("html")[0].style.visibility = "visible";
+            atualizaTabelaTarefas()
+          });
+      </script>
+    </div>
   </div>
 
   <!-- Bootstrap -->

@@ -72,6 +72,7 @@
                         descricao:$("#descricao").val(),
                         estado: $('input[name=estado]:checked').val()}
             $.post("../backend/controllers/controller-add-tarefa.php", dados, function(result, status){
+               console.log(result);
                if (result) alert("Tarefa inserida com sucesso")
                else alert("Erro ao inserir tarefa")
                 atualizaTabelaTarefas();

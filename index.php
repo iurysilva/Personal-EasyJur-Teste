@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php
+include './modais/view-add-user.php';
+?>
 
 <head>
   <meta charset="UTF-8">
@@ -25,34 +28,52 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-light justify-content-center fs-3" style="background-color: #1e1f21; color: white; margin: 0">
+  <nav class="navbar navbar-light justify-content-center fs-3" style="background-color: #1e1f21; color: white; margin: 0; height: 80px; border-radius:0">
     TESTE EASYJUR
   </nav>
 
   <div style="background-color: black; width: 100%; height: 100vh; display: flex; padding-top:100px">  
-    <div class="container" style="background-color: white; height: 500px; display: flex; flex-direction: column; align-items: center">
-        <form id="">
+    <div class="container" style="width: 25%; background-color: white; height: 500px; display: flex; flex-direction: column; align-items: center">
+        <form style="width: 80%">
             <div>
-                <div class="row" style="width: 100%">
-                  <label for="nome" class="form-label" style="font-size: 30px">Usuário</label>
-                  <input id="nome" type="text" class="form-control" name="nome" placeholder="">
+                <div style="width: 100%; font-size: 30px; margin-top: 70px; display: flex; flex-direction: column; align-items: center">
+                  Faça seu login
                 </div>
 
-                <div class="row" style="width: 30%">
-                  <label for="descricao" class="form-label">Senha</label>
-                  <input id="descricao" type="text" class="form-control" name="descricao" placeholder="">
+                <div style="width: 100%; margin-top: 40px">
+                  <label for="usuario" class="form-label" style="font-size: 20px">Usuário</label>
+                  <input id="usuario" type="text" class="form-control" name="usuario" placeholder="">
+                </div>
+
+                <div style="width: 100%; margin-top: 20px">
+                  <label for="senha" class="form-label" style="font-size: 20px">Senha</label>
+                  <input id="senha" type="password" class="form-control" name="senha" placeholder="">
                 </div>
             </div>
           </form>
-          <button id="submit-button"> Entrar </button>
+          <button id="login-button" style="margin-top: 20px; background-color: #ffc709; border:none; width: 80%; font-size: 20px"> Entrar </button>
+          <div style="width: 100%; font-size: 20px; margin-top: 15px; display: flex; flex-direction: column; align-items: center">
+                  Ou
+          </div>
+          <button id="register-button" data-toggle="modal" data-target="#modalAdicionarUsuario" style="margin-top: 15px; background-color: #ffc709; border:none; width: 50%; font-size: 20px"> Cadastre-se </button>
     </div>
   </div>
 
   <script type="text/javascript">
     $(document).ready(function(){
-      $('#submit-button').click(function(){
-          $url = "./pages/page-tarefas.php"
-          window.location = $url;
+      $('#login-button').click(function(){
+        let dados = {usuario:$("#usuario").val(),
+                     senha:$("#senha").val()}
+            $.post("./backend/controllers/controller-login.php", dados, function(result, status){
+               if (result){
+                var currentDate = new Date();
+                currentDate.setMinutes(currentDate.getMinutes()+60);
+                localStorage.setItem("auth-expiration", currentDate);
+                $url = "./pages/page-home.php"
+                window.location = $url;
+               }
+               else alert("Credenciais inválidas!")
+            } )
       });
     });
   </script>

@@ -6,8 +6,7 @@ class RepositoryTarefa{
         if ($estado == "Concluído") $sql = "INSERT INTO `tarefa`(`nome`, `descricao`, `data_conclusao`, `estado`) VALUES ('$nome', '$descricao', NOW(), '$estado')";
         else $sql = "INSERT INTO `tarefa`(`nome`, `descricao`, `estado`) VALUES ('$nome', '$descricao', '$estado')";
 
-        $result = mysqli_query($connection, $sql);
-     
+        $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));;
         if ($result) echo json_encode($result);
         else echo "Erro: " . mysqli_error($connection); 
     }
@@ -16,7 +15,6 @@ class RepositoryTarefa{
         $sql =  "SELECT * FROM `tarefa`";
 
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-        $array = array();
 
         while ($rows = mysqli_fetch_assoc($result)) {
             $dados[] = array('id' => $rows['id'],
@@ -33,7 +31,6 @@ class RepositoryTarefa{
         $sql =  "SELECT * FROM tarefa WHERE id='".$id."'";
 
         $result = mysqli_query($connection, $sql) or die(mysqli_error($connection));
-        $array = array();
 
         $row = mysqli_fetch_assoc($result);
         $dados = array('id' => $row['id'],

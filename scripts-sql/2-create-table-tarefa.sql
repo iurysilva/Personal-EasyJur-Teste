@@ -1,4 +1,3 @@
-CREATE OR REPLACE DATABASE easyjur;
 USE easyjur;
 CREATE OR REPLACE TABLE tarefa (id INT AUTO_INCREMENT PRIMARY KEY,
                                 nome VARCHAR(20) charset utf8,
@@ -6,4 +5,4 @@ CREATE OR REPLACE TABLE tarefa (id INT AUTO_INCREMENT PRIMARY KEY,
                                 data_criacao DATETIME DEFAULT(NOW()),
                                 data_conclusao DATETIME NULL,
                                 estado ENUM('Pendente', 'Concluído') DEFAULT('Pendente')
-                               )
+                               );
