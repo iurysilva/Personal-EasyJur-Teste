@@ -1,0 +1,39 @@
+version: '3.1'
+
+services:
+  database :
+    image: mariadb:latest
+    container_name: container-mariadb
+    restart: always
+    environment:
+      MARIADB_USER: easyjur-user
+      MARIADB_PASSWORD: easyjur-password
+      MARIADB_ROOT_PASSWORD: easyjur-root
+    volumes:
+      - "./mariadb-data/data:/var/lib/mysql/data/"
+      - "./mariadb-data/logs:/var/lib/mysql/logs/"
+      - "./scripts-sql/1-create-database.sql:/docker-entrypoint-initdb.d/1-create-database.sql"
+      - "./scripts-sql/2-create-table-tarefa.sql:/docker-entrypoint-initdb.d/2-create-table-tarefa.sql"
+      - "./scripts-sql/3-create-table-usuario.sql:/docker-entrypoint-initdb.d/3-create-table-usuario.sql"
+      - "./scripts-sql/4-insert-root-user.sql:/docker-entrypoint-initdb.d/4-insert-root-user.sql"
+    ports:
+      - 3306:3306
+      
+  backend-php-puro:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: backend-php-puro
+    restart: always
+    volumes:
+      - "./:/var/www/html/"
+    ports:
+      - 8081:80
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1 
